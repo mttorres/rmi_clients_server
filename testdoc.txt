@@ -42,10 +42,10 @@ passo 5: Iniciar o JAVA RMI registry, server , e cliente
 iniciando o JAVA RMI registry: 
 For example, on the Solaris Operating System:
 
-rmiregistry &
+rmiregistry -J-Djava.rmi.server.useCodebaseOnly=false &
 Or, on Windows platforms:
 
-start rmiregistry 
+start rmiregistry -J-Djava.rmi.server.useCodebaseOnly=false
 
 
 Iniciando o Servidor:
@@ -54,13 +54,13 @@ rode o arquivo class do servidor :
 
 no solaris:
 
-java -classpath classDir -Djava.rmi.server.codebase=file:classDir/ example.hello.Server &
+java -classpath classDir -Djava.rmi.server.codebase=file:classDir/ packageName.className &
 
 
 no windows :
 
 
-start java -classpath classDir -Djava.rmi.server.codebase=file:classDir/ example.hello.Server
+start java -classpath classDir -Djava.rmi.server.codebase=file:classDir/ packageName.className
 
 
 classDir : diretorio que contem o .class do servidor
