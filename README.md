@@ -1,7 +1,7 @@
 # rmi_clients_server 
  Aplicação distribuída cliente-servidor, onde o servidor realiza operações de leituras e escritas em diferentes arquivos.
 
-#Intruções
+#Instruções
 
 Read me!
 
