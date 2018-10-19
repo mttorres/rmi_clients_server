@@ -12,7 +12,7 @@ A aplicação RMI é sempre composta de um cliente e um servidor , e uma "interf
 
 - comunicar com os objetos remotos: o programador não deve ter que lidar com a comunicação entre objetos remotos  já que essa é feita pelo sistema RMI, a comunicação ocorre como uma simples invocação de método feita pelo programador.
 
--carregar os bytecodes das classe para os objetos que são transferidos como argumentos ou resultados de valores
+- carregar os bytecodes das classe para os objetos que são transferidos como argumentos ou resultados de valores
 
 interfaces e classes: já que java rmi é um sistema individual de linguagem, a programação de aplicação distribuída em RMI é relativamente simples. Todas as interfaces e classes para o sistema RMI são definidas no java.RMI (pacote) a relação entre algumas das interfaces e das classes. A classe Remote Object implementa a interface Remota enquanto as outras classes estendem o Remote Object
 
@@ -26,19 +26,19 @@ interfaces e classes: já que java rmi é um sistema individual de linguagem, a 
  Todos os os métodos remotos que são declarados em uma interface remota deve especificar uma RemoteException(ou uma de suas superclasses) na sua cláusula throws para garantir a “segurança” das aplicações no sistema RMI. Quando a invocação remota de um método falha a exceção RemoteException é dispersada... ERROS DE COMUNICAÇÃO, PROTOCOLOS, E FALHAS DURANTE a "ordenação/acompanhamento" de parâmetros ou valores de retorno são algumas razões para uma falha RMI, uma exceção desse tipo deve ser tratada por quem chama o método remoto. 
 
 
-passo 1: definir uma interface remota
+- passo 1: definir uma interface remota
 
-passo 2: implementar o servidor
+- passo 2: implementar o servidor
 
-passo 3: implementar o cliente
+- passo 3: implementar o cliente
 
-passo 4: compilar os arquivos fonte
+- passo 4: compilar os arquivos fonte
 
 javac -d destDir Hello.java Server.java Client.java
 
 destDir: Diretório destinação para por os arquivos .class
 
-passo 5: Iniciar o JAVA RMI registry, server , e cliente
+- passo 5: Iniciar o JAVA RMI registry, server , e cliente
 
 iniciando o JAVA RMI registry: 
 For example, on the Solaris Operating System:
@@ -50,7 +50,7 @@ Or, on Windows platforms:
 start rmiregistry -J-Djava.rmi.server.useCodebaseOnly=false
 
 
-Iniciando o Servidor:
+- Iniciando o Servidor:
 
 rode o arquivo class do servidor :
 
