@@ -1,9 +1,9 @@
 package root;
+
 import java.io.Console;
 import java.util.Scanner;
 import java.rmi.registry.Registry;
 import java.rmi.registry.LocateRegistry;
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
@@ -28,11 +28,11 @@ public class ControleServidor implements ControleInterface {
 		}
 	}
 	
-	public void readFile(char file) throws java.rmi.RemoteException, NotBoundException{
+	public void readFile(char file) throws java.rmi.RemoteException{
 		System.out.println("readFile Servidor");
 	}
 	
-	public void writeFile(char file) throws java.rmi.RemoteException, NotBoundException{
+	public void writeFile(char file) throws java.rmi.RemoteException{
 		System.out.println("writeFile Servidor");
 	}
 }

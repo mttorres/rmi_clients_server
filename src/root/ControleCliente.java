@@ -6,27 +6,38 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
-public class ControleCliente implements ControleInterface {	
+public class ControleCliente {	
 
-	private ControleCliente() {}
+	public Registry registry;
+	public ControleInterface stub;
 	
-	public static void main(String[] args) throws RemoteException, NotBoundException 
+	private ControleCliente() throws RemoteException, NotBoundException {
+		this.registry = LocateRegistry.getRegistry();
+		this.stub = (ControleInterface) this.registry.lookup("Controle");
+	}
+	
+	public static void main(String[] args) 
 	{
-		ControleCliente obj = new ControleCliente();
-		obj.readFile('a');
-		Console c = System.console();
-		c.format("\nPress ENTER to proceed.\n");
-    	c.readLine();
+		try {
+			ControleCliente obj = new ControleCliente();
+			obj.readFile('a');
+			Console c = System.console();
+			c.format("\nPress ENTER to proceed.\n");
+	    	c.readLine();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 	public void readFile(char file) throws java.rmi.RemoteException, NotBoundException{
 		System.out.println("readFile Cliente");
-		Registry registry = LocateRegistry.getRegistry();
-		ControleInterface stub = (ControleInterface) registry.lookup("Controle");
-		stub.readFile('a');	
+		this.stub.readFile(file);
+		
 	}
 	
 	public void writeFile(char file) throws java.rmi.RemoteException, NotBoundException{
 		System.out.println("writeFile Ciente");
+		this.stub.writeFile(file);
 	}
 }
