@@ -11,6 +11,15 @@ public class ControleCliente {
 	public ControleInterface stub;
 	public int numeroCliente;
 	
+	
+	// "RA" -> Read File  'A'
+	// "WC" -> Write File 'C'
+	public static String[][] tarefas = {
+			{"RA", "RA", "RA", "RA", "RA", "RA", "RA", "RA", "RA", "RA"}, // tarefas do cliente 1
+			{"RA", "RC", "RA", "RA", "RA", "RA", "RA", "RA", "RA", "RA"}, // tarefas do cliente 2
+			{"RA", "RA", "RA", "RA", "RA", "RA", "RA", "RA", "RA", "RA"}, // tarefas do cliente 3
+	}; 
+	
 	public ControleCliente(int numeroCliente) throws RemoteException, NotBoundException {
 		this.registry = LocateRegistry.getRegistry();
 		this.stub = (ControleInterface) this.registry.lookup("Controle");
@@ -34,13 +43,10 @@ public class ControleCliente {
 	}
 	
 	public void readFile(char file) throws java.rmi.RemoteException {
-		System.out.println("readFile cliente iniciado");
 		this.stub.readFile(file);
-		System.out.print("readFile cliente finalizado");
 	}
 	
 	public void writeFile(char file) throws java.rmi.RemoteException {
-		System.out.println("writeFile Ciente");
 		this.stub.writeFile(file);
 	}
 }
