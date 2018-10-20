@@ -1,7 +1,7 @@
 package root;
 
-import java.io.Console;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 import java.rmi.registry.Registry;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.RemoteException;
@@ -20,7 +20,8 @@ public class ControleServidor implements ControleInterface {
 			registry.bind("Controle", stub);
 			System.out.println("Servidor pronto!");
 			Scanner input = new Scanner(System.in);
-			String pausa = input.next();
+			input.next();  // pausa
+			input.close();
 		}catch(Exception e)
 		{
 			System.err.println("Capturando exceção no Servidor: " + e.toString());
@@ -28,11 +29,16 @@ public class ControleServidor implements ControleInterface {
 		}
 	}
 	
-	public void readFile(char file) throws java.rmi.RemoteException{
+	public void readFile(char file) throws RemoteException{
 		System.out.println("readFile Servidor");
+		try {
+			TimeUnit.MINUTES.sleep(1);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 	
-	public void writeFile(char file) throws java.rmi.RemoteException{
+	public void writeFile(char file) throws RemoteException{
 		System.out.println("writeFile Servidor");
 	}
 }
