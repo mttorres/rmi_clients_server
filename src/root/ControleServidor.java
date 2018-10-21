@@ -11,6 +11,7 @@ import java.rmi.server.UnicastRemoteObject;
 
 public class ControleServidor implements ControleInterface {
 	
+	//TODO: implementar as filas pros outros arquivos
 	private Queue <Integer> fila = new LinkedList <Integer>();
 
 	public ControleServidor() {}
