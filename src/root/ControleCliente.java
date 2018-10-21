@@ -11,12 +11,14 @@ public class ControleCliente {
 	public ControleInterface stub;
 	public int numeroCliente;
 	
+	private int bufferLengthSize = 100;
+	
 	// "RA" -> Read File  'A'
 	// "WC" -> Write File 'C'
 	public static String[][] tarefas = {
-			{"W1", "W1", "R1", "R1", "R1", "R1", "R1", "R1", "R1", "R1"}, // tarefas do cliente 1
-			{"W1", "W1", "R1", "R1", "R1", "R1", "R1", "R1", "R1", "R1"}, // tarefas do cliente 2
-			{"W1", "W1", "R1", "R1", "R1", "R1", "R1", "R1", "R1", "R1"}, // tarefas do cliente 3
+			{"W1", "W1", "W1", "W1", "R1", "R1", "R1", "R1", "R1", "R1"}, // tarefas do cliente 1
+			{"R1", "R1", "R1", "R1", "R1", "R1", "R1", "R1", "R1", "R1"}, // tarefas do cliente 2
+			{"R1", "R1", "R1", "R1", "R1", "R1", "R1", "R1", "R1", "R1"}, // tarefas do cliente 3
 	}; 
 	
 	public ControleCliente(int numeroCliente) throws RemoteException, NotBoundException {
@@ -37,17 +39,18 @@ public class ControleCliente {
 			cliente3.start();
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
-		
+		}	
 	}
 	
 	public void readFile(char file) throws java.rmi.RemoteException {
 		int fileInt = Integer.parseUnsignedInt(String.valueOf(file));
-		this.stub.readFile(fileInt, this.numeroCliente);
+		byte[] inputByteArray = this.stub.readFile(this.bufferLengthSize, fileInt);
+		String teste = new String(inputByteArray);
+		System.out.println(teste);
 	}
 	
 	public void writeFile(char file) throws java.rmi.RemoteException {
 		int fileInt = Integer.parseUnsignedInt(String.valueOf(file));
-		this.stub.writeFile(fileInt, this.numeroCliente);
+		this.stub.writeFile(fileInt);
 	}
 }
