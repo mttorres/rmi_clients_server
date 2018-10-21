@@ -17,13 +17,10 @@ public class ClienteThread extends Thread {
 		try {
 			char tipoTarefa;
 			char arquivoTarefa;
-			
-			for (String tarefa : this.tarefas) {
-				tipoTarefa = tarefa.charAt(0);
-				arquivoTarefa = tarefa.charAt(1);
-				this.handleTarefa(tipoTarefa, arquivoTarefa);
-			}
-			
+
+			//Debugging
+			this.cliente.stub.updateFila(0,0);
+			this.cliente.stub.getState();
 			System.out.println("==> \tCliente " + cliente.numeroCliente + " finalizou.");
 		}catch (Exception e) {
 			e.printStackTrace();	

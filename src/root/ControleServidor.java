@@ -10,11 +10,13 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
 public class ControleServidor implements ControleInterface {
-	
-	//TODO: implementar as filas pros outros arquivos
-	private Queue <Integer> fila = new LinkedList <Integer>();
+	static int filaA, filaB, filaC;
+	static int leituraA, leituraB, leituraC;
 
-	public ControleServidor() {}
+	public ControleServidor() {
+		this.filaA = this.filaB = this.filaC = 0;
+		this.leituraA = this.leituraB = this.leituraC = 0;
+	}
 	
 	public static void main(String args[]) {
 		try
@@ -24,9 +26,6 @@ public class ControleServidor implements ControleInterface {
 			Registry registry = LocateRegistry.getRegistry();
 			registry.bind("Controle", stub);
 			System.out.println("Servidor pronto!");
-			Scanner input = new Scanner(System.in);
-			input.next();  // pausa
-			input.close();
 		}catch(Exception e)
 		{
 			System.err.println("Capturando exceção no Servidor: " + e.toString());
@@ -35,46 +34,33 @@ public class ControleServidor implements ControleInterface {
 	}
 	
 	public void readFile(int file, int cliente) throws RemoteException{
-		System.out.println("readFile " + file + " Servidor");
-		file -= 1;
-		
-		//TODO: implementar fila aqui
-		
-		try {
-			TimeUnit.SECONDS.sleep(5);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+//foobar
 	}
 	
 	public void writeFile(int file, int cliente) throws RemoteException{
-		System.out.println("writeFile " + file + " Servidor, topo da fila = " + this.fila.peek());
-		file -= 1;
-		
-		this.fila.add(cliente);
-
-		// TODO: Trocar isso por um .wait() correto ou um callback 
-		while(true) {
-			if (this.fila.peek() != null) {
-				if (this.fila.peek() == cliente) {
-					break;
-				}else {
-					// Explicação da gambiarra:
-					// antes de tudo, me desculpem por fazer isso e.e
-					// se não utilizasse as variáveis/não fizesse nada dentro do while a thread para de atualizar o valor, sempre dando falso no if anterior
-					String zuado_mas_funciona = "topo = " + this.fila.peek() + " cliente = " + cliente;
-				}
-			}
-		}
-			
-		System.out.println("Executando " + cliente);
-		
-		try {
-			TimeUnit.SECONDS.sleep(5);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		
-		this.fila.poll();
+//foobar
 	}
+	//As funcoes abaixo verificam se os clientes pegam o mesmo valor da fila 
+
+	public void updateFila(int arquivo, int leitura){
+		if(leitura  == 0){
+			if(arquivo == 0) filaA++;
+			if(arquivo == 1) filaB++;
+			if(arquivo == 2) filaC++;
+		}
+		else{
+			if(arquivo == 0) leituraA++;
+			if(arquivo == 1) leituraB++;
+			if(arquivo == 2) leituraC++;
+		}
+		System.out.println("Terminou de atualizar as filas\n");
+	}
+
+	public void getState(){
+		System.out.println("Filas do servidor");
+		System.out.println("Estado das filas: \nA = " + filaA + "\nB = " + filaB + "\nC = " + filaC);
+		System.out.println("Estado das filas de leitura: \nA = " + leituraA + "\nB = " + leituraB + "\nC = " + leituraC);
+		System.out.println("");
+	}
+
 }

@@ -1,5 +1,6 @@
 package root;
 
+import java.util.concurrent.TimeUnit;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -32,15 +33,43 @@ public class ControleCliente {
 			ClienteThread cliente2 = new ClienteThread(2);
 			ClienteThread cliente3 = new ClienteThread(3);
 			
+			//cliente2.start();
+			
+			//Debugging:
+			//Cliente 1 inicia e atualiza a fila A
+			//Cliente 1 pede o estado das filas
+			//Cliente 3 atualiza a fila A
+			//Cliente 1 pede o estado das filas
 			cliente1.start();
-			cliente2.start();
+			try {
+				TimeUnit.SECONDS.sleep(5);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+
+			System.out.println("Após cliente 1 atualizar");
+			cliente1.cliente.stub.getState();
+			
 			cliente3.start();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+			try {
+				TimeUnit.SECONDS.sleep(5);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+
+			System.out.println("Após cliente 1 e 3 atualizarem");
+			
+			cliente3.cliente.stub.getState();
+			
+			try {
+			TimeUnit.SECONDS.sleep(5);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+				cliente1.cliente.stub.getState();
 		
 	}
-	
+
 	public void readFile(char file) throws java.rmi.RemoteException {
 		int fileInt = Integer.parseUnsignedInt(String.valueOf(file));
 		this.stub.readFile(fileInt, this.numeroCliente);
