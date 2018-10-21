@@ -32,10 +32,9 @@ public class ClienteThread extends Thread {
 	
 	private void handleTarefa(char tipoTarefa, char arquivoTarefa) throws RemoteException {
 		System.out.println("Cliente " + cliente.numeroCliente + " executando " + tipoTarefa + arquivoTarefa);
-		if(tipoTarefa == 'W') {
-			this.cliente.writeFile(arquivoTarefa);
-		}else if(tipoTarefa == 'R'){
-			this.cliente.readFile(arquivoTarefa);
-		}
+		if(tipoTarefa == 'W') this.cliente.writeFile(arquivoTarefa);
+		else if(tipoTarefa == 'R') this.cliente.readFile(arquivoTarefa);
+		else System.out.println("Tarefa inválida!");
+		System.out.println("Cliente " + cliente.numeroCliente + " finalizou " + tipoTarefa + arquivoTarefa);
 	}
 }

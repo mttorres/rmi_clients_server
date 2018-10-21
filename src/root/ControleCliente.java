@@ -11,13 +11,12 @@ public class ControleCliente {
 	public ControleInterface stub;
 	public int numeroCliente;
 	
-	
 	// "RA" -> Read File  'A'
 	// "WC" -> Write File 'C'
 	public static String[][] tarefas = {
-			{"RA", "RA", "RA", "RA", "RA", "RA", "RA", "RA", "RA", "RA"}, // tarefas do cliente 1
-			{"RA", "RC", "RA", "RA", "RA", "RA", "RA", "RA", "RA", "RA"}, // tarefas do cliente 2
-			{"RA", "RA", "RA", "RA", "RA", "RA", "RA", "RA", "RA", "RA"}, // tarefas do cliente 3
+			{"W1", "W1", "R1", "R1", "R1", "R1", "R1", "R1", "R1", "R1"}, // tarefas do cliente 1
+			{"W1", "W1", "R1", "R1", "R1", "R1", "R1", "R1", "R1", "R1"}, // tarefas do cliente 2
+			{"W1", "W1", "R1", "R1", "R1", "R1", "R1", "R1", "R1", "R1"}, // tarefas do cliente 3
 	}; 
 	
 	public ControleCliente(int numeroCliente) throws RemoteException, NotBoundException {
@@ -43,10 +42,12 @@ public class ControleCliente {
 	}
 	
 	public void readFile(char file) throws java.rmi.RemoteException {
-		this.stub.readFile(file);
+		int fileInt = Integer.parseUnsignedInt(String.valueOf(file));
+		this.stub.readFile(fileInt, this.numeroCliente);
 	}
 	
 	public void writeFile(char file) throws java.rmi.RemoteException {
-		this.stub.writeFile(file);
+		int fileInt = Integer.parseUnsignedInt(String.valueOf(file));
+		this.stub.writeFile(fileInt, this.numeroCliente);
 	}
 }
