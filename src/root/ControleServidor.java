@@ -12,10 +12,10 @@ public class ControleServidor implements ControleInterface {
 	public Semaphore semaforos[];
 	
 	public ControleServidor() {
-		semaforos = new Semaphore[3];
-		semaforos[0] = new Semaphore(1, true);
-		semaforos[1] = new Semaphore(1, true);
-		semaforos[2] = new Semaphore(1, true);
+		semaforos = new Semaphore[Helper.NUMBER_OF_FILES];
+		semaforos[0] = new Semaphore(semaforos.length, true);
+		semaforos[1] = new Semaphore(semaforos.length, true);
+		semaforos[2] = new Semaphore(semaforos.length, true);
 	}
 	
 	public static void main(String args[]) {
@@ -37,21 +37,20 @@ public class ControleServidor implements ControleInterface {
 	}
 	
 	public void readFile(int file, int cliente) throws RemoteException{
-		System.out.println("readFile " + file + " Servidor");
+		System.out.println("writeFile " + file + " Servidor");
 		file -= 1;
-		
-		//TODO: implementar semaforo aqui
-		
+		Helper.acquireReadPermission(semaforos[file]);
+		System.out.println("Executando leitura " + cliente);
 		Helper.sleepSeconds(5);
+		Helper.releaseReadPermission(semaforos[file]);
 	}
 	
 	public void writeFile(int file, int cliente) throws RemoteException{
 		System.out.println("writeFile " + file + " Servidor");
 		file -= 1;
-		
-		Helper.acquireSemaphore(semaforos[file]);
-		System.out.println("Executando " + cliente);
+		Helper.acquireWritePermission(semaforos[file]);
+		System.out.println("Executando escrita " + cliente);
 		Helper.sleepSeconds(5);
-		Helper.releaseSemaphore(semaforos[file]);
+		Helper.releaseWritePermission(semaforos[file]);
 	}
 }
