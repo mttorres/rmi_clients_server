@@ -1,8 +1,5 @@
 package root;
 
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.concurrent.Semaphore;
 import java.rmi.registry.Registry;
 import java.rmi.registry.LocateRegistry;
@@ -21,8 +18,8 @@ public class ControleServidor implements ControleInterface {
 	}
 	
 	public static void main(String args[]) {
-			registerStub();
-			System.out.println("Servidor pronto!");
+		registerStub();
+		System.out.println("Servidor pronto!");
 	}
 	
 	public byte[] readFile(int file) throws RemoteException{
@@ -35,7 +32,6 @@ public class ControleServidor implements ControleInterface {
 	
 	public void writeFile(int file) throws RemoteException{
 		Helper.acquireWritePermission(semaforos[file - 1]);
-		// TODO: implementar a escrita aqui
 		Helper.sleepSeconds(5);
 		Helper.releaseWritePermission(semaforos[file - 1]);
 	}

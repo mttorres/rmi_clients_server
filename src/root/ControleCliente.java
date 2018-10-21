@@ -11,8 +11,6 @@ public class ControleCliente {
 	public ControleInterface stub;
 	public int numeroCliente;
 	
-	private int bufferLengthSize = 100;
-	
 	// "RA" -> Read File  'A'
 	// "WC" -> Write File 'C'
 	public static String[][] tarefas = {
