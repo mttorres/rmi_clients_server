@@ -41,21 +41,15 @@ public class ControleCliente {
 			//Cliente 3 atualiza a fila A
 			//Cliente 1 pede o estado das filas
 			cliente1.start();
-			try {
-				TimeUnit.SECONDS.sleep(5);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+			
+			Helper.sleepSeconds(5);
 
 			System.out.println("Após cliente 1 atualizar");
 			cliente1.cliente.stub.getState();
 			
 			cliente3.start();
-			try {
-				TimeUnit.SECONDS.sleep(5);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+			
+			Helper.sleepSeconds(5);
 
 			System.out.println("Após cliente 1 e 3 atualizarem");
 			
@@ -83,4 +77,5 @@ public class ControleCliente {
 		int fileInt = Integer.parseUnsignedInt(String.valueOf(file));
 		this.stub.writeFile(fileInt, this.numeroCliente);
 	}
+	
 }
