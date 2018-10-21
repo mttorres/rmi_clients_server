@@ -62,11 +62,15 @@ public class ControleCliente {
 			cliente3.cliente.stub.getState();
 			
 			try {
-			TimeUnit.SECONDS.sleep(5);
+				TimeUnit.SECONDS.sleep(5);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-				cliente1.cliente.stub.getState();
+			
+			cliente1.cliente.stub.getState();
+		} catch (Exception e){
+			e.printStackTrace();
+		}
 		
 	}
 
