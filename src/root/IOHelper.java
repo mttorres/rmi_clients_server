@@ -5,11 +5,12 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 public class IOHelper {
+	public static int BUFFER_SIZE = 100;
 	
 	private IOHelper () {}
 	
-	public static byte[] readFile(int len, int file) {
-		byte[] byteArrayToReturn = new byte[len];
+	public static byte[] readFile(int file) {
+		byte[] byteArrayToReturn = new byte[BUFFER_SIZE];
 		
 		try {
 			String fileName = getFileName(file);

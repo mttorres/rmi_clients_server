@@ -44,7 +44,7 @@ public class ControleCliente {
 	
 	public void readFile(char file) throws java.rmi.RemoteException {
 		int fileInt = Integer.parseUnsignedInt(String.valueOf(file));
-		byte[] inputByteArray = this.stub.readFile(this.bufferLengthSize, fileInt);
+		byte[] inputByteArray = this.stub.readFile(fileInt);
 		String teste = new String(inputByteArray);
 		System.out.println(teste);
 	}

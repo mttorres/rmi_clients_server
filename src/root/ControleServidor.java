@@ -25,22 +25,19 @@ public class ControleServidor implements ControleInterface {
 			System.out.println("Servidor pronto!");
 	}
 	
-	public byte[] readFile(int len, int file) throws RemoteException{
+	public byte[] readFile(int file) throws RemoteException{
 		Helper.acquireReadPermission(semaforos[file - 1]);
-		System.out.println("Executando leitura");
-		byte[] byteArrayToReturn = IOHelper.readFile(len, file);
+		byte[] byteArrayToReturn = IOHelper.readFile(file);
 		Helper.sleepSeconds(5);
 		Helper.releaseReadPermission(semaforos[file - 1]);
 		return byteArrayToReturn;
 	}
 	
 	public void writeFile(int file) throws RemoteException{
-		file -= 1;
-		Helper.acquireWritePermission(semaforos[file]);
-		System.out.println("Executando escrita ");
+		Helper.acquireWritePermission(semaforos[file - 1]);
 		// TODO: implementar a escrita aqui
 		Helper.sleepSeconds(5);
-		Helper.releaseWritePermission(semaforos[file]);
+		Helper.releaseWritePermission(semaforos[file - 1]);
 	}
 	
 	private static void registerStub() {
