@@ -30,8 +30,9 @@ public class ControleServidor implements ControleInterface {
 		return byteArrayToReturn;
 	}
 	
-	public void writeFile(int file) throws RemoteException{
+	public void writeFile(int file, String text) throws RemoteException{
 		Helper.acquireWritePermission(semaforos[file - 1]);
+		IOHelper.writeFile(file, text);
 		Helper.sleepSeconds(5);
 		Helper.releaseWritePermission(semaforos[file - 1]);
 	}

@@ -43,12 +43,13 @@ public class ControleCliente {
 	public void readFile(char file) throws java.rmi.RemoteException {
 		int fileInt = Integer.parseUnsignedInt(String.valueOf(file));
 		byte[] inputByteArray = this.stub.readFile(fileInt);
-		String teste = new String(inputByteArray);
-		System.out.println(teste);
+		String stringRecebida = new String(inputByteArray);
+		System.out.println(stringRecebida);
 	}
 	
 	public void writeFile(char file) throws java.rmi.RemoteException {
 		int fileInt = Integer.parseUnsignedInt(String.valueOf(file));
-		this.stub.writeFile(fileInt);
+		String texto = "Cliente " + this.numeroCliente + " escreveu por último!";
+		this.stub.writeFile(fileInt, texto);
 	}
 }
