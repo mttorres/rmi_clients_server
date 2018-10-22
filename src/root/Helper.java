@@ -17,6 +17,8 @@ public class Helper {
 	}
 	
 	public static void acquireWritePermission(Semaphore semaphore) {
+		
+
 		acquirePermission(semaphore, NUMBER_OF_FILES);
 	}
 	

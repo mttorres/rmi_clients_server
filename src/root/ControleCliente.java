@@ -47,7 +47,7 @@ public class ControleCliente {
 		System.out.println(stringRecebida);
 	}
 	
-	public void writeFile(char file) throws java.rmi.RemoteException {
+	public void writeFile(char file) throws java.rmi.RemoteException, java.lang.InterruptedException {
 		int fileInt = Integer.parseUnsignedInt(String.valueOf(file));
 		String texto = "Cliente " + this.numeroCliente + " escreveu por último!";
 		this.stub.writeFile(fileInt, texto);
