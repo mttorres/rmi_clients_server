@@ -1,0 +1,5 @@
+
+start rmiregistry -J-Djava.rmi.server.useCodebaseOnly=false
+
+start java -classpath bin -Djava.rmi.server.codebase=file:bin/ root.ControleServidor
+start java -classpath bin -Djava.rmi.server.codebase=file:bin/ root.ControleCliente

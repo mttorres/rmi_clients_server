@@ -2,6 +2,7 @@ package root;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.lang.InterruptedException;
 
 public class ClienteThread extends Thread {
 	
@@ -17,20 +18,28 @@ public class ClienteThread extends Thread {
 		try {
 			char tipoTarefa;
 			char arquivoTarefa;
-
-			//Debugging
-			this.cliente.stub.updateFila(0,0);
-			this.cliente.stub.getState();
+			
+			for (String tarefa : this.tarefas) {
+				tipoTarefa = tarefa.charAt(0);
+				arquivoTarefa = tarefa.charAt(1);
+				this.handleTarefa(tipoTarefa, arquivoTarefa);
+			}
+			
 			System.out.println("==> \tCliente " + cliente.numeroCliente + " finalizou.");
 		}catch (Exception e) {
 			e.printStackTrace();	
 		}
 	}
 	
-	private void handleTarefa(char tipoTarefa, char arquivoTarefa) throws RemoteException {
+	private void handleTarefa(char tipoTarefa, char arquivoTarefa) throws RemoteException, InterruptedException {
 		System.out.println("Cliente " + cliente.numeroCliente + " executando " + tipoTarefa + arquivoTarefa);
-		if(tipoTarefa == 'W') this.cliente.writeFile(arquivoTarefa);
-		else if(tipoTarefa == 'R') this.cliente.readFile(arquivoTarefa);
+		if(tipoTarefa == 'W'){
+			this.cliente.writeFile(arquivoTarefa);
+		} 
+		else if(tipoTarefa == 'R'){
+			this.cliente.readFile(arquivoTarefa); 
+			
+		} 
 		else System.out.println("Tarefa inválida!");
 		System.out.println("Cliente " + cliente.numeroCliente + " finalizou " + tipoTarefa + arquivoTarefa);
 	}
