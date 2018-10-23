@@ -11,18 +11,23 @@ import java.rmi.server.UnicastRemoteObject;
 public class ControleServidor implements ControleInterface {
 	
 	private Semaphore semaforos[];
-	
-	static int filaA, filaB, filaC;
+	private int filas[];
+	private int leituras[];
+	/*static int filaA, filaB, filaC;
 	static int leituraA, leituraB, leituraC;
-
+	*/
 
 	public ControleServidor() {
 		this.semaforos    = new Semaphore[Helper.NUMBER_OF_FILES];
 		this.semaforos[0] = new Semaphore(semaforos.length, true);
 		this.semaforos[1] = new Semaphore(semaforos.length, true);
 		this.semaforos[2] = new Semaphore(semaforos.length, true);
+		this.leituras = new int[3];
+		this.filas = new int[3];
+		/*
 		this.filaA = this.filaB = this.filaC = 0;
 		this.leituraA = this.leituraB = this.leituraC = 0;
+		*/
 	}
 	
 	public static void main(String args[]) {
@@ -32,20 +37,26 @@ public class ControleServidor implements ControleInterface {
 	
 	public byte[] readFile(int file) throws RemoteException{
 		
-		entraFila(file,true,0);
+		//entraFila(file,true,0);
+		this.filas[file-1] += 1;
+		this.leituras[file-1] += 1;
 		Helper.acquireReadPermission(semaforos[file - 1]);
 		byte[] byteArrayToReturn = IOHelper.readFile(file);
 		Helper.sleepSeconds(5);
-		saiFila(file,true);
+		//saiFila(file,true);
 		Helper.releaseReadPermission(semaforos[file - 1]);
+		this.filas[file-1] -= 1;
+		this.leituras[file-1] -= 1;
+		notifyAll();
 		return byteArrayToReturn;
 	}
 	
 	public void writeFile(int file, String text) throws RemoteException, InterruptedException{
 		
-		int filaleitura = 0;
-		entraFila(file,false,filaleitura);
-		if(filaleitura > 0 )
+		//int filaleitura = 0;
+		//entraFila(file,false,filaleitura);
+		this.filas[file-1] += 1;
+		while(this.leituras[file-1] > 0 )
 		{
 			System.out.println("Debug: bloqueado por leitura ao arquivo estar em curso");
 			wait();
@@ -55,8 +66,9 @@ public class ControleServidor implements ControleInterface {
 		Helper.acquireWritePermission(semaforos[file - 1]);
 		IOHelper.writeFile(file, text);
 		Helper.sleepSeconds(5);
-		saiFila(file,false);
+		
 		Helper.releaseWritePermission(semaforos[file - 1]);
+		this.filas[file-1] -= 1;
 		
 	}
 	
@@ -70,7 +82,7 @@ public class ControleServidor implements ControleInterface {
 			e.printStackTrace();
 		}
 	}
-
+	/*
 	public void getState(){
 		System.out.println("Filas do servidor");
 		System.out.println("Estado das filas: \nA = " + filaA + "\nB = " + filaB + "\nC = " + filaC);
@@ -152,4 +164,5 @@ public class ControleServidor implements ControleInterface {
 			
 		}
 	}
+	*/
 }

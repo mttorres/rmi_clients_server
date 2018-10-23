@@ -38,7 +38,7 @@ public class ClienteThread extends Thread {
 		} 
 		else if(tipoTarefa == 'R'){
 			this.cliente.readFile(arquivoTarefa); 
-			notifyAll();
+			
 		} 
 		else System.out.println("Tarefa inválida!");
 		System.out.println("Cliente " + cliente.numeroCliente + " finalizou " + tipoTarefa + arquivoTarefa);
