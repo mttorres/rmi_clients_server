@@ -14,9 +14,9 @@ public class ControleCliente {
 	// "RA" -> Read File  'A'
 	// "WC" -> Write File 'C'
 	public static String[][] tarefas = {
-			{"R1", "R1", "R1", "R1", "R1", "W1", "R1", "R1", "W3", "R2"}, // tarefas do cliente 1
-			{"R1", "R1", "W1", "W1", "R1", "R1", "R1", "W2", "R1", "R1"}, // tarefas do cliente 2
-			{"R1", "R1", "R1", "R1", "W2", "R1", "R1", "R1", "R1", "R3"}, // tarefas do cliente 3
+			{"W1", "R1", "R1", "R1", "R1", "W1", "R1", "R1", "W3", "R2"}, // tarefas do cliente 1
+			{"W1", "W1", "W1", "W1", "R1", "R1", "R1", "W2", "R1", "R1"}, // tarefas do cliente 2
+			{"W1", "W1", "R1", "R1", "W2", "R1", "R1", "R1", "R1", "R3"}, // tarefas do cliente 3
 	}; 
 	
 	public ControleCliente(int numeroCliente) throws RemoteException, NotBoundException {
@@ -44,12 +44,12 @@ public class ControleCliente {
 		int fileInt = Integer.parseUnsignedInt(String.valueOf(file));
 		byte[] inputByteArray = this.stub.readFile(fileInt);
 		String stringRecebida = new String(inputByteArray);
-		System.out.println(stringRecebida);
+		//System.out.println(stringRecebida);
 	}
 	
 	public void writeFile(char file) throws java.rmi.RemoteException, java.lang.InterruptedException {
 		int fileInt = Integer.parseUnsignedInt(String.valueOf(file));
-		String texto = "Cliente " + this.numeroCliente + " escreveu por ultimo no arquivo " + fileInt + "!";
+		String texto = "Cliente " + this.numeroCliente + " escreveu por ultimo no arquivo " + fileInt;
 		this.stub.writeFile(fileInt, texto);
 	}
 }
