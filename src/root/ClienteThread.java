@@ -32,7 +32,7 @@ public class ClienteThread extends Thread {
 	}
 	
 	private void handleTarefa(char tipoTarefa, char arquivoTarefa) throws RemoteException, InterruptedException {
-		System.out.println("Cliente " + cliente.numeroCliente + " executando " + tipoTarefa + arquivoTarefa);
+		System.out.println("Cliente " + cliente.numeroCliente + " pediu " + tipoTarefa + arquivoTarefa);
 		if(tipoTarefa == 'W'){
 			this.cliente.writeFile(arquivoTarefa);
 		} 

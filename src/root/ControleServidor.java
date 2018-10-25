@@ -3,6 +3,7 @@ package root;
 import java.util.concurrent.Semaphore;
 import java.rmi.registry.Registry;
 import java.rmi.registry.LocateRegistry;
+import java.io.Console;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
@@ -40,46 +41,43 @@ public class ControleServidor implements ControleInterface {
 	public static void main(String args[]) {
 		registerStub();
 		System.out.println("Servidor pronto!");
+		System.out.println("Aperte ENTER para executar uma instrução.");
 	}
 	
 	//Método de leitura de arquivo.
 	public byte[] readFile(int file) throws RemoteException, InterruptedException{
-
+		int fileIndex = file - 1;
+		
 		//Entra na região crítica. Só um leitor atualiza o contador por vez para não dar merda.
 		mutex[file-1].acquire(1);
 		
 		//Se ele é o primeiro leitor, nega o acesso do arquivo aos escritores.
 		//Se já houver algúem escrevendo, bloqueia a thread.
 		//Aumenta o número de leitores na fila do arquivo.
-		this.leituras[file-1] += 1;
-		if(this.leituras[file-1] == 1){	
-			write[file-1].acquire(1);
+		this.leituras[fileIndex] += 1;
+		if(this.leituras[fileIndex] == 1){	
+			write[fileIndex].acquire(1);
 		}
 		
 		//Sai da região crítica.
-		mutex[file-1].release();
-		
-		//Debugging:
-		//System.out.println("Fila antes = " + this.leituras[file-1]);
+		mutex[fileIndex].release();
 
 		//Lê o arquivo e espera 1 segundo.
 		byte[] byteArrayToReturn = IOHelper.readFile(file);
-		Thread.sleep(1000);
+		Console c = System.console();
+    	c.readLine();
 
 		//Entra na região crítica.
-		mutex[file-1].acquire(1);
-		this.leituras[file-1] -= 1;		
+		mutex[fileIndex].acquire(1);
+		this.leituras[fileIndex] -= 1;		
+		
 		//Último leitor terminou de usar o arquivo, libera para o escritor(se houver)
-		if(this.leituras[file-1] == 0){
-			write[file-1].release();
+		if(this.leituras[fileIndex] == 0){
+			write[fileIndex].release();
 		}
+		
 		//Sai da região crítica
-		mutex[file-1].release();
-
-		//Debugging:
-		/* System.out.println("Fila depois = " + this.leituras[file-1] + " *** " + this.write[file-1].availablePermits()
-							+ " *** " + this.mutex[file-1].availablePermits()
-							); */
+		mutex[fileIndex].release();
 	
 		return byteArrayToReturn;
 	}
@@ -93,26 +91,20 @@ public class ControleServidor implements ControleInterface {
 			write[fileIndex].acquire();
 			
 			if (this.leituras[fileIndex] > 0) {
-				write[fileIndex].release(1);
+				write[fileIndex].release();
 			}else {
 				break;
 			}
 		}
 		
 		
-		//Debbuging:
-		//System.out.println("Permissão de escrita antes =" + this.write[file-1].availablePermits());
-		//System.out.println("Pegou write. Vai escrever.");
-		
 		//Escreve e espera 5 segundos.
 		IOHelper.writeFile(file, text);
-		Thread.sleep(5000);		
+		Console c = System.console();
+    	c.readLine();		
 
 		//Acabou de escrever, libera o arquivo para quem pediu anteriormente.
 		write[fileIndex].release();
-
-		//Debugging:
-		//System.out.println("Permissão de escrita depois =" + this.write[file-1].availablePermits());
 		
 	}
 	
@@ -128,90 +120,3 @@ public class ControleServidor implements ControleInterface {
 		}
 	}
 }
-
-
-//Deprecated
-
-	/*
-	public void getState(){
-		System.out.println("Filas do servidor");
-		System.out.println("Estado das filas: \nA = " + filaA + "\nB = " + filaB + "\nC = " + filaC);
-		System.out.println("Estado das filas de leitura: \nA = " + leituraA + "\nB = " + leituraB + "\nC = " + leituraC);
-		System.out.println("");
-	}
-
-	// atualiza as variaveis de fila  e fornece se o arquivo atual tem leituras em curso usando a variavel auxiliar filaleitura
-	public void entraFila(int fnum, boolean leitura,int filaleitura)
-	{
-		switch (fnum) {
-			case 1:
-				this.filaA++;
-				if(leitura)
-				{
-					this.leituraA++;
-				}
-				else
-				{
-					filaleitura = this.leituraA;
-				}
-				break;
-			case 2:
-				this.filaB++;
-				if(leitura)
-				{
-					this.leituraB++;
-				}
-				else
-				{
-					filaleitura = this.leituraB;
-				}
-				break;
-			case 3:
-				this.filaC++;
-				if(leitura)
-				{
-					this.leituraC++;
-				}
-				else
-				{
-					filaleitura = this.leituraC;
-				}
-				break;
-
-			
-		}
-
-
-		
-	}
-
-	// apenas atualiza as variaveis de fila
-	public void saiFila(int fnum, boolean leitura)
-	{
-		switch (fnum) {
-			case 1:
-				this.filaA--;
-				if(leitura)
-				{
-					this.leituraA--;
-				}
-				break;
-			case 2:
-				this.filaB--;
-				if(leitura)
-				{
-					this.leituraB--;
-				}
-				break;
-			case 3:
-				this.filaC--;
-				if(leitura)
-				{
-					this.leituraC--;
-				}
-				break;
-
-			
-		}
-	}
-	*/
