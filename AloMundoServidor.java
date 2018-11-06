@@ -33,7 +33,7 @@ public class AloMundoServidor implements AloMundo
 			// o stub retornado para o cliente implementa o mesmo conjunto de interfaces remotas que o objeto remoto 
 			// esse deve ter um nome (host) e porta por onde devem ser contactados!
 			//associa o stub do objeto remoto no registro
-			Registry registry = LocateRegistry.getRegistry();
+			Registry registry = LocateRegistry.getRegistry(1099);
 			registry.bind("AloMundo",stub);
 			System.out.println("Servidor pronto!");
 			Scanner input = new Scanner(System.in);

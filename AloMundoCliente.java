@@ -11,7 +11,7 @@ public class AloMundoCliente
 		String host = (args.length < 1) ? null : args[0];
 		try 
 		{
-			Registry registry = LocateRegistry.getRegistry();
+			Registry registry = LocateRegistry.getRegistry("54.244.13.228", 1099);
 			AloMundo stub = (AloMundo) registry.lookup("AloMundo");
 			String resposta = stub.digaAloMundo();
 			System.out.println("resposta: " + resposta);
